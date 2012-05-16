@@ -2,12 +2,12 @@
 
 objParser::objParser(QString _fileName, QString _regExp, QWidget *parent) :
     QGLWidget(parent),
-    fileName(_fileName), sRegExp(_regExp)
+    fileName(_fileName), sRegExp(_regExp), isGood(false)
 {
     masVertexes.clear();
     masIndex.clear();
     masNormals.clear();
-    parser();
+    parserTriangle();
 }
 
 objParser::~objParser() {
@@ -17,8 +17,8 @@ objParser::~objParser() {
     qDebug() << "DEL";
 }
 
-void objParser::parser() {
-    if(sRegExp == "vertex") {
+void objParser::parserTriangle() {
+    if(sRegExp == "triangle") {
         regExp = new QRegExp("v (.?[0-9]+\.[0-9]+) (.?[0-9]+\.[0-9]+) (.?[0-9]+\.[0-9]+)");
         indexRegExp = new QRegExp("f ([0-9]+)\/\/[0-9]+ ([0-9]+)\/\/[0-9]+ ([0-9]+)\/\/[0-9]+");
         normalsRegExp = new QRegExp("vn (.?[0-9]+\.[0-9]+) (.?[0-9]+\.[0-9]+) (.?[0-9]+\.[0-9]+)");
@@ -27,6 +27,7 @@ void objParser::parser() {
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     if(!file.exists()) {
         qDebug() << "FAIL";
+        isGood = false;
         return;
     }
     else {
@@ -57,4 +58,5 @@ void objParser::parser() {
     qDebug() << masNormals;
     qDebug() << masNormals.size();
     file.close();
+    isGood = true;
 }
