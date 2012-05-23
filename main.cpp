@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    objParser m("syz.obj");
+    objParser m("syz-textured.obj");
     m.show();
     return a.exec();
 }
